@@ -9,6 +9,7 @@ module Phase3
     # use ERB and binding to evaluate templates
     # pass the rendered html to render_content
     def render(template_name)
+
       controller_name = self.class.to_s.underscore
       path = "views/#{controller_name}/#{template_name}.html.erb"
       file = File.read(path)

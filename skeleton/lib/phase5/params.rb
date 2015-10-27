@@ -18,10 +18,7 @@ module Phase5
       if req.body
         @params.merge!(parse_www_encoded_form(req.body))
       end
-
-
-
-      @params = @params.merge(route_params)
+      @params.merge!(route_params)
 
     end
 
@@ -52,7 +49,7 @@ module Phase5
           result[keys[0]] ||= {}
           current_level = result
           result[keys[0]] = duplet[1] if keys.count == 1
-          keys[0..-1].each do |key|
+          keys.each do |key|
             current_level[key] ||= {}
             if key == keys.last
               current_level[key] = duplet[1]
