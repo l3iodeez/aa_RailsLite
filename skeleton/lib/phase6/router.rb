@@ -19,7 +19,7 @@ module Phase6
     def run(req, res)
       match_data = req.path.match(pattern)
       @route_params = {}
-      
+
       match_data.names.each_with_index do |name, idx|
         @route_params[name] = match_data.captures[idx]
       end
@@ -56,6 +56,7 @@ module Phase6
 
     # should return the route that matches this request
     def match(req)
+      
       routes.find { |route| route.matches?(req) }
     end
 
@@ -63,7 +64,7 @@ module Phase6
     def run(req, res)
       route = match(req)
       if route
-        # route.run(req, res)
+        route.run(req, res)
       else
         res.status = 404
       end

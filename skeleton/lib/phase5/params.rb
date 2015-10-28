@@ -40,10 +40,10 @@ module Phase5
     # { "user" => { "address" => { "street" => "main", "zip" => "89436" } } }
     def parse_www_encoded_form(www_encoded_form)
       result = {}
+      encoded_params = URI::decode_www_form(www_encoded_form)
 
-      pairs = www_encoded_form.split("&")
-        pairs.each do |pair|
-          duplet = pair.split("=")
+        encoded_params.each do |duplet|
+
           keys = parse_key(duplet[0])
           result[keys[0]] ||= {}
           current_level = result

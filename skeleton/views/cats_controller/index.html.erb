@@ -1,3 +1,7 @@
 <h1>ALL THE CATS</h1>
 <pre><%= @cats.to_s %></pre>
 <a href="/cats/new">New cat!</a>
+<br>
+<%= "flash should be below" %>
+<br>
+<%= flash[:notice].to_s %>

@@ -1,7 +1,7 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'webrick'
-require_relative '../lib/phase5/controller_base'
+require_relative '../lib/Phase9/controller_base'
 
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick.html
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/HTTPRequest.html
@@ -22,7 +22,6 @@ class Cat
 
   def save
     return false unless @name.present? && @owner.present?
-
     Cat.all << self
     true
   end
@@ -32,12 +31,17 @@ class Cat
   end
 end
 
-class CatsController < Phase5::ControllerBase
+class CatsController < Phase9::ControllerBase
   def create
+
     @cat = Cat.new(params["cat"])
     if @cat.save
+      flash[:notice] = ["Cat saved"]
+
       redirect_to("/cats")
     else
+      flash.now[:notice] = ["Cat is invalid"]
+
       render :new
     end
   end
