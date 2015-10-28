@@ -1,3 +1,5 @@
+require_relative '../phase9/controller_base'
+
 module Phase10
   class ControllerBase < Phase9::ControllerBase
     def form_authenticity_token

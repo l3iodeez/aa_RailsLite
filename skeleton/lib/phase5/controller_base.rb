@@ -9,6 +9,9 @@ module Phase5
     def initialize(req, res, route_params = {})
       super(req, res)
       @params = Params.new(req, route_params)
+      if %w(POST PATCH PUT DELETE).include?(req.request_method)
+        raise "Invalid Authenticity Token" unless session["authenticity_token"] == @params[:auth_token]
+      end
     end
   end
 end

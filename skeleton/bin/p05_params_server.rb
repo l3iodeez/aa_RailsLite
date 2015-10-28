@@ -1,7 +1,7 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'webrick'
-require_relative '../lib/Phase9/controller_base'
+require_relative '../lib/Phase10/controller_base'
 
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick.html
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/HTTPRequest.html
@@ -31,7 +31,7 @@ class Cat
   end
 end
 
-class CatsController < Phase9::ControllerBase
+class CatsController < Phase10::ControllerBase
   def create
 
     @cat = Cat.new(params["cat"])
