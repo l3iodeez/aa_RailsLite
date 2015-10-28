@@ -2,10 +2,14 @@
   <label>Name
     <input type="text" name="cat[name]" value="<%= @cat.name %>">
   </label>
-
   <label>Owner
-    <input type="text" name="cat[owner]" value="<%= @cat.owner %>">
+    <select name="cat[owner_id]">
+    <% Human.all.each do |human| %>
+      <option value=<%= human.id %>> <%= human.fname + human.lname %> </option>
+    <% end %>
+    </select>
   </label>
+
   <input type="text" name="authenticity_token" value="<%= form_authenticity_token %>">
 
   <input type="submit">

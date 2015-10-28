@@ -1,4 +1,6 @@
 require_relative '../phase9/controller_base'
+require_relative '../SQLObject'
+require_relative '../AssocOptions.rb'
 
 module Phase10
   class ControllerBase < Phase9::ControllerBase

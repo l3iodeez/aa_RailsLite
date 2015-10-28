@@ -5,20 +5,18 @@ require 'byebug'
 module Phase9
   class Flash
     def initialize(req)
-      @req = req
-      @cookie = req.cookies.find { |cookie| cookie.name == "_rails_lite_app_flash" }
-      @previous_req = @cookie.nil? ? {} : JSON.parse(@cookie.value)
-      @flash_now = {}
+      cookie = req.cookies.find { |cookie| cookie.name == "_rails_lite_app_flash" }
+      @flash_now = cookie.nil? ? {} : JSON.parse(cookie.value)
       @flash = {}
     end
 
     def [](key)
-      [@flash[key.to_sym],
-       @flash[key.to_s],
-       @previous_req[key.to_sym],
-       @previous_req[key.to_s],
-       @flash_now[key.to_s],
-       @flash_now[key.to_sym]].flatten.compact
+      [
+        @flash[key.to_sym],
+        @flash[key.to_s],
+        @flash_now[key.to_s],
+        @flash_now[key.to_sym]
+      ].flatten.compact.first
     end
 
     def []=(flash_type, value)

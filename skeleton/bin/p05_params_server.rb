@@ -7,31 +7,51 @@ require_relative '../lib/Phase10/controller_base'
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/HTTPRequest.html
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/HTTPResponse.html
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick/Cookie.html
+class Human < SQLObject
+  @table_name = "humans"
+  has_many( :cats,
+  class_name: "Cat",
+  foreign_key: :owner_id,
+  primary_key: :id
+  )
+end
 
-class Cat
-  attr_reader :name, :owner
+class Cat < SQLObject
+  belongs_to(:owner,
+    class_name: "Human",
+    foreign_key: :owner_id,
+    primary_key: :id)
 
-  def self.all
-    @cat ||= []
-  end
 
-  def initialize(params = {})
-    params ||= {}
-    @name, @owner = params["name"], params["owner"]
-  end
+  
 
-  def save
-    return false unless @name.present? && @owner.present?
-    Cat.all << self
-    true
-  end
 
-  def inspect
-    { name: name, owner: owner }.inspect
-  end
+
+  # def self.all
+  #   @cat ||= []
+  # end
+
+  # def initialize(params = {})
+  #   params ||= {}
+  #   @name, @owner = params["name"], params["owner"]
+  # end
+  #
+  # def save
+  #   return false unless @name.present? && @owner.present?
+  #   Cat.all << self
+  #   true
+  # end
+  #
+  # def inspect
+  #   { name: name, owner: owner }.inspect
+  # end
+end
+class HumansController < Phase10::ControllerBase
 end
 
 class CatsController < Phase10::ControllerBase
+
+
   def create
 
     @cat = Cat.new(params["cat"])
@@ -48,6 +68,7 @@ class CatsController < Phase10::ControllerBase
 
   def index
     @cats = Cat.all
+
     render :index
   end
 
