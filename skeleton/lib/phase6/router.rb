@@ -56,12 +56,15 @@ module Phase6
 
     # should return the route that matches this request
     def match(req)
-      
+
       routes.find { |route| route.matches?(req) }
     end
 
     # either throw 404 or call run on a matched route
     def run(req, res)
+      if req.request_method == "POST"
+        raise "Invalid Authenticity Token" unless session["authenticity_token"] == @params[:authenticity_token]
+      end
       route = match(req)
       if route
         route.run(req, res)
