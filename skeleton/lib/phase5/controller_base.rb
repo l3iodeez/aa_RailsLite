@@ -10,7 +10,7 @@ module Phase5
       super(req, res)
       @params = Params.new(req, route_params)
       if %w(POST PATCH PUT DELETE).include?(req.request_method)
-        raise "Invalid Authenticity Token" unless session["authenticity_token"] == @params[:auth_token]
+        raise "Invalid Authenticity Token" unless session["authenticity_token"] == @params[:authenticity_token]
       end
     end
   end
