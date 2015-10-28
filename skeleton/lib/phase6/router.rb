@@ -11,7 +11,7 @@ module Phase6
 
     # checks if pattern matches path and method matches request method
     def matches?(req)
-      pattern =~ req.path && req.request_method.downcase.to_sym == http_method
+      (http_method == req.request_method.downcase.to_sym) && !!(pattern =~ req.path)
     end
 
     # use pattern to pull out route params (save for later?)
@@ -19,12 +19,12 @@ module Phase6
     def run(req, res)
       match_data = req.path.match(pattern)
       @route_params = {}
-
+      
       match_data.names.each_with_index do |name, idx|
-        @route_params[name] = match_data.values_at(idx)
+        @route_params[name] = match_data.captures[idx]
       end
       controller = @controller_class.new(req, res, @route_params)
-      controller.invoke_action(req.request_method)
+        controller.invoke_action(action_name)
     end
   end
 
@@ -32,7 +32,7 @@ module Phase6
     attr_reader :routes
 
     def initialize
-      @routes= []
+      @routes = []
     end
 
     # simply adds a new route to the list of routes
@@ -56,17 +56,14 @@ module Phase6
 
     # should return the route that matches this request
     def match(req)
-      @routes.each do |route|
-        return route if route.matches?(req)
-      end
-      nil
+      routes.find { |route| route.matches?(req) }
     end
 
     # either throw 404 or call run on a matched route
     def run(req, res)
       route = match(req)
       if route
-        route.run(req, res)
+        # route.run(req, res)
       else
         res.status = 404
       end
